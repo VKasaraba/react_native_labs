@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from "react";
+import { Image } from 'react-native' ;
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import Task from './components/Task';
 import Category from './components/Category';
@@ -9,7 +10,6 @@ const shoppingColor = "#F45E6D"
 const familyColor = "#FFE761"
 const personalColor = "#B678FF"
 
-
 var inboxTasksNumber = 1
 var workTasksNumber = 2
 var shoppingTasksNumber = 3
@@ -17,10 +17,13 @@ var familyTasksNumber = 1
 var personalTasksNumber = 4
 
 export default function App() {
+  const [plusSignPressed, setPlusSignPressed] = useState(false);
+
   return (
     <View style={styles.appContainer}>
       {/* To enable scrolling when list gets longer than the page */}
       <ScrollView
+        style={plusSignPressed ? {opacity: 0.5} : {opacity: 1}}
         contentContainerStyle={{
           flexGrow: 1
         }}
@@ -29,8 +32,7 @@ export default function App() {
 
       <View style={styles.checkList}>
         <Text style={styles.pageTitle}>Today</Text>
-        <View style={styles.tasks}>
-
+        <View>
           {/* TASKS */}
             <Task text={'Start making a presentation'} color={inboxColor} />
             <Task text={'Pay for rent'} color={workColor} />
@@ -53,11 +55,21 @@ export default function App() {
       </ScrollView>
 
       {/* Add a task button */}
-      <TouchableOpacity style={styles.createTask} onPress={() => handleCreateTask()}>
-        <View style={styles.addTaskSignWrapper}>
+      <View style={styles.createTaskContained}>
+          <View style={[styles.createChoiceWrapper, plusSignPressed ? styles.displayFlex : styles.displayNone]}>
+            <TouchableOpacity style={[styles.createOption, styles.createOptionBorder]}>
+              <Image source={require('./assets/option1.png')} />
+              <Text style={styles.createOptionText}>Create Task</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.createOption}>
+              <Image source={require('./assets/option2.png')} />
+              <Text style={styles.createOptionText}>Create List</Text>
+            </TouchableOpacity>
+          </View>
+        <TouchableOpacity style={styles.addTaskSignWrapper} onPress={() => setPlusSignPressed(!plusSignPressed)}>
           <Text style={styles.addTaskSign}>+</Text>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -66,6 +78,8 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
   },
+
+  // Check list
   checkList: {
     paddingTop: 50,
     paddingHorizontal: 20,
@@ -76,11 +90,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontWeight: 'bold',
   },
-  createTask: {
+
+  // Add Task button
+  createTaskContained: {
     position: 'absolute',
     bottom: 60,
     width: '100%',
-    flexDirection: 'row-reverse',
+    flexDirection: 'column',
+    marginLeft: 200,
   },
   addTaskSignWrapper: {
     width: 60,
@@ -91,12 +108,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#C0C0C0',
     borderWidth: 1,
-    marginRight: 15,
+    marginLeft: 100,
   },
   addTaskSign: {
     fontSize: 40,
     color: '#1a1aff'
   },
+  createChoiceWrapper: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    marginBottom: 10,
+    width: 180,
+  },
+  createOptionText: {
+    fontWeight: 'bold',
+    color: '#006CFF',
+    marginLeft: 7,
+  },
+  createOption: {
+    paddingTop: 14,
+    paddingBottom: 14,
+    paddingLeft: 10,
+    flexDirection: 'row',
+  },
+  createOptionBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#252A31",
+  },
+  displayNone: {
+    display: 'none',
+  },
+  displayFlex: {
+    display: 'flex',
+  },
+
+  // Categories
   categoriesWrapper: {
     marginLeft: 50,
     marginTop: 20,
