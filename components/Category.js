@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import colors from "../constants";
+
 
 const Category = (props) => {
 
   return (
-    <View style={[styles.containerWrapper, { backgroundColor: props.color}]}>
+    <View style={[{ backgroundColor: colors[props.type] }, styles.containerWrapper]}>
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.subText}>{props.tasksNumber} tasks</Text>
     </View>
@@ -13,7 +15,6 @@ const Category = (props) => {
 
 const styles = StyleSheet.create({
     containerWrapper: {
-        // backgroundColor: "#DADADA",
         paddingTop: 10,
         paddingBottom: 10,
         borderRadius: 10,
