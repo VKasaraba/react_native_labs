@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import colors from "../constants";
 
 const Task = (props) => {
   const [checked, setChecked] = useState(false);
-
   return (
     <TouchableOpacity onPress={() => setChecked(!checked)}>
       <View style={styles.task}>
@@ -11,7 +11,7 @@ const Task = (props) => {
           <View style={[styles.point, checked ? styles.chekedPoint : styles.unchekedPoint]}></View>
           <Text style={styles.taskText}>{props.text}</Text>
         </View>
-        <View style={[styles.circle, {"backgroundColor": props.color}]}></View>
+        <View style={[{"backgroundColor": colors[props.type]}, styles.circle]}></View>
       </View>
     </TouchableOpacity>
   );
